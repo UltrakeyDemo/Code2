@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UltraKey Invoice Application</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+
+<!-- ════════════════════════════════════════
+     LOGIN SCREEN
+════════════════════════════════════════ -->
+<div id="login-screen" class="login-page">
+  <div class="login-card">
+    <div class="login-logo">
+      <img src="assets/logo.png" onerror="this.style.display='none'" alt="Ultrakey">
+      <h2>Ultrakey IT Solutions</h2>
+      <p>Invoice & Quotation Management</p>
+    </div>
+    <h3>Welcome back</h3>
+    <p class="subtitle">Sign in to your account to continue</p>
+    <form id="login-form">
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="login-username" placeholder="Enter your username" value="admin" autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="login-password" placeholder="Enter your password" value="Admin@123" autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn btn-primary btn-lg" style="margin-top:8px">Sign In →</button>
+    </form>
+    <p style="text-align:center;margin-top:20px;font-size:12px;color:var(--text-muted)">Default: admin / Admin@123</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     MAIN APP
+════════════════════════════════════════ -->
+<div id="app-screen" class="app-layout hidden">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="assets/logo.png" onerror="this.style.display='none'" alt="Ultrakey">
+      <span>Ultrakey<br>Invoice App</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">Main</div>
+      <div class="nav-item" data-page="dashboard">
+        <svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+        <span>Dashboard</span>
+      </div>
+      <div class="nav-item" data-page="invoices">
+        <svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 12h6M9 16h6M9 8h3M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z"/></svg>
+        <span>Invoices</span>
+      </div>
+      <div class="nav-item" data-page="quotes">
+        <svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M8 10h8M8 14h5M12 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V9l-7-6z"/><path d="M12 3v6h6"/></svg>
+        <span>Quotes</span>
+      </div>
+      <div class="nav-item" data-page="clients">
+        <svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        <span>Clients</span>
+      </div>
+      <div class="nav-section">Config</div>
+      <div class="nav-item" data-page="settings">
+        <svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
+        <span>Settings</span>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-info">
+        <div class="user-avatar" id="user-avatar">A</div>
+        <div>
+          <div class="user-name" id="user-name">Admin</div>
+          <div class="user-role" id="user-role">admin</div>
+        </div>
+        <button class="logout-btn" onclick="logout()" title="Logout">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 id="page-title">Dashboard</h1>
+        <p id="page-subtitle">Overview & Analytics</p>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-search">
+          <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" id="global-search" placeholder="Search invoices, clients…">
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="exportData()" title="Export Database">⬇ Export DB</button>
+        <button class="btn btn-secondary btn-sm" onclick="importData()" title="Import Database">⬆ Import DB</button>
+      </div>
+    </header>
+
+    <!-- PAGE CONTENT -->
+    <div class="page-content">
+
+      <!-- ══ DASHBOARD ══ -->
+      <div id="page-dashboard" class="page">
+        <div class="stats-grid">
+          <div class="stat-card blue">
+            <div class="stat-icon">
+              <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 12h6M9 16h6M9 8h3M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z"/></svg>
+            </div>
+            <div class="stat-value" id="stat-total-inv">0</div>
+            <div class="stat-label">Total Invoices</div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-icon">
+              <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <div class="stat-value" id="stat-revenue">₹0</div>
+            <div class="stat-label">Total Revenue (Paid)</div>
+          </div>
+          <div class="stat-card red">
+            <div class="stat-icon">
+              <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+            </div>
+            <div class="stat-value" id="stat-overdue">0</div>
+            <div class="stat-label">Overdue Invoices</div>
+          </div>
+          <div class="stat-card orange">
+            <div class="stat-icon">
+              <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M8 10h8M8 14h5M12 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V9l-7-6z"/><path d="M12 3v6h6"/></svg>
+            </div>
+            <div class="stat-value" id="stat-quotes">0</div>
+            <div class="stat-label">Pending Quotes</div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:2fr 1fr;gap:24px;margin-bottom:24px">
+          <div class="chart-card">
+            <div class="section-header">
+              <h2>Revenue (Last 6 Months)</h2>
+            </div>
+            <div class="chart-bar-wrap" id="mini-chart"></div>
+          </div>
+          <div class="chart-card">
+            <div class="section-header"><h2>Quick Actions</h2></div>
+            <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px">
+              <button class="btn btn-primary w-full" onclick="navigateTo('invoices');setTimeout(openNewInvoiceModal,100)">+ New Invoice</button>
+              <button class="btn btn-secondary w-full" onclick="navigateTo('quotes');setTimeout(openNewQuoteModal,100)">+ New Quote</button>
+              <button class="btn btn-secondary w-full" onclick="navigateTo('clients');setTimeout(openNewClientModal,100)">+ New Client</button>
+              <button class="btn btn-secondary w-full" onclick="exportData()">⬇ Export Database</button>
+              <button class="btn btn-secondary w-full" onclick="importData()">⬆ Import Database</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <div class="section-header" style="padding:18px 20px 0">
+            <h2>Recent Invoices</h2>
+            <button class="btn btn-secondary btn-sm" onclick="navigateTo('invoices')">View All →</button>
+          </div>
+          <table style="margin-top:8px">
+            <thead><tr>
+              <th>Invoice</th><th>Client</th><th>Date</th><th>Status</th><th class="text-right">Amount</th>
+            </tr></thead>
+            <tbody id="recent-invoices-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ══ INVOICES ══ -->
+      <div id="page-invoices" class="page">
+        <div class="section-header" style="margin-bottom:16px">
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <span style="font-size:13px;color:var(--text-muted)">All <b id="inv-count-all">0</b> | </span>
+            <span class="badge badge-paid">Paid <span id="inv-count-paid">0</span></span>
+            <span class="badge badge-draft">Draft <span id="inv-count-draft">0</span></span>
+            <span class="badge badge-overdue">Overdue <span id="inv-count-overdue">0</span></span>
+            <span class="badge badge-sent">Unpaid <span id="inv-count-unpaid">0</span></span>
+          </div>
+          <button class="btn btn-primary" onclick="openNewInvoiceModal()">+ New Invoice</button>
+        </div>
+
+        <div class="table-card">
+          <div class="table-toolbar">
+            <div class="search-box">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              <input type="text" id="inv-search" placeholder="Search invoices…" oninput="renderInvoices()">
+            </div>
+            <select class="filter-select" id="inv-status-filter" onchange="invoicePagination.page=1;renderInvoices()">
+              <option value="">All Statuses</option>
+              <option value="draft">Draft</option>
+              <option value="sent">Sent</option>
+              <option value="paid">Paid</option>
+              <option value="overdue">Overdue</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+            <button class="btn btn-secondary btn-sm" onclick="exportData()">⬇ Export CSV</button>
+          </div>
+          <table>
+            <thead><tr>
+              <th>Invoice</th><th>Client</th><th>Status</th><th>Date</th>
+              <th class="text-right">Total</th><th class="text-right">Due</th><th>Actions</th>
+            </tr></thead>
+            <tbody id="invoices-tbody"></tbody>
+          </table>
+          <div class="pagination" id="inv-pagination"></div>
+        </div>
+      </div>
+
+      <!-- ══ QUOTES ══ -->
+      <div id="page-quotes" class="page">
+        <div class="section-header" style="margin-bottom:16px">
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <span style="font-size:13px;color:var(--text-muted)">All <b id="qt-count-all">0</b> | </span>
+            <span class="badge badge-accepted">Accepted <span id="qt-count-accepted">0</span></span>
+            <span class="badge badge-sent">Sent <span id="qt-count-sent">0</span></span>
+            <span class="badge badge-draft">Draft <span id="qt-count-draft">0</span></span>
+            <span class="badge badge-expired">Expired <span id="qt-count-expired">0</span></span>
+          </div>
+          <button class="btn btn-primary" onclick="openNewQuoteModal()">+ New Quote</button>
+        </div>
+
+        <div class="table-card">
+          <div class="table-toolbar">
+            <div class="search-box">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              <input type="text" id="qt-search" placeholder="Search quotes…" oninput="renderQuotes()">
+            </div>
+            <select class="filter-select" id="qt-status-filter" onchange="quotePagination.page=1;renderQuotes()">
+              <option value="">All Statuses</option>
+              <option value="draft">Draft</option>
+              <option value="sent">Sent</option>
+              <option value="accepted">Accepted</option>
+              <option value="declined">Declined</option>
+              <option value="expired">Expired</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </div>
+          <table>
+            <thead><tr>
+              <th>Quote</th><th>Client</th><th>Status</th><th>Date</th><th class="text-right">Total</th><th>Actions</th>
+            </tr></thead>
+            <tbody id="quotes-tbody"></tbody>
+          </table>
+          <div class="pagination" id="qt-pagination"></div>
+        </div>
+      </div>
+
+      <!-- ══ CLIENTS ══ -->
+      <div id="page-clients" class="page">
+        <div class="section-header" style="margin-bottom:16px">
+          <div></div>
+          <button class="btn btn-primary" onclick="openNewClientModal()">+ Add Client</button>
+        </div>
+
+        <div class="table-card">
+          <div class="table-toolbar">
+            <div class="search-box">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              <input type="text" id="client-search" placeholder="Search clients…" oninput="clientPagination.page=1;renderClients()">
+            </div>
+          </div>
+          <table>
+            <thead><tr>
+              <th>Business / Client</th><th>Email</th><th>Address</th><th>Invoices</th><th>Total Billed</th><th>Actions</th>
+            </tr></thead>
+            <tbody id="clients-tbody"></tbody>
+          </table>
+          <div class="pagination" id="client-pagination"></div>
+        </div>
+      </div>
+
+      <!-- ══ SETTINGS ══ -->
+      <div id="page-settings" class="page">
+        <div class="settings-layout">
+          <div class="settings-nav">
+            <div class="settings-nav-item active" data-tab="general" onclick="loadSettingsTab('general')">⚙️ General</div>
+            <div class="settings-nav-item" data-tab="business" onclick="loadSettingsTab('business')">🏢 Business</div>
+            <div class="settings-nav-item" data-tab="quotes" onclick="loadSettingsTab('quotes')">📄 Quotes</div>
+            <div class="settings-nav-item" data-tab="invoices" onclick="loadSettingsTab('invoices')">🧾 Invoices</div>
+            <div class="settings-nav-item" data-tab="payments" onclick="loadSettingsTab('payments')">💳 Payments</div>
+            <div class="settings-nav-item" data-tab="tax" onclick="loadSettingsTab('tax')">🏦 Tax</div>
+            <div class="settings-nav-item" data-tab="emails" onclick="loadSettingsTab('emails')">📧 Emails</div>
+            <div class="settings-nav-item" data-tab="translate" onclick="loadSettingsTab('translate')">🌐 Translate</div>
+          </div>
+
+          <div>
+            <!-- General Settings -->
+            <div class="settings-panel settings-panel-section" data-tab="general">
+              <h3>General Settings</h3>
+              <p class="desc">Configure fiscal year and pre-defined line items.</p>
+              <div class="form-grid form-grid-2" style="margin-bottom:20px">
+                <div class="form-group">
+                  <label>Year Start</label>
+                  <select id="s-year-start">
+                    <option>01 Apr</option><option>01 Jan</option><option>01 Jul</option><option>01 Oct</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Year End</label>
+                  <select id="s-year-end">
+                    <option>31 Mar</option><option>31 Dec</option><option>30 Jun</option><option>30 Sep</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-section-title">Pre-Defined Line Items</div>
+              <div style="display:grid;grid-template-columns:60px 1fr 100px 80px auto;gap:8px;margin-bottom:6px">
+                <span style="font-size:11px;font-weight:700;color:var(--text-muted)">QTY</span>
+                <span style="font-size:11px;font-weight:700;color:var(--text-muted)">TITLE</span>
+                <span style="font-size:11px;font-weight:700;color:var(--text-muted)">PRICE</span>
+                <span style="font-size:11px;font-weight:700;color:var(--text-muted)">DESC</span>
+                <span></span>
+              </div>
+              <div id="predefined-items-wrap"></div>
+              <button class="btn btn-secondary btn-sm" style="margin-top:12px" onclick="addPredefinedItemRow()">+ Add Item</button>
+              <div style="margin-top:20px"><button class="btn btn-primary" onclick="saveSettingsTab('general')">Save General Settings</button></div>
+            </div>
+
+            <!-- Business -->
+            <div class="settings-panel settings-panel-section hidden" data-tab="business">
+              <h3>Business Settings</h3>
+              <p class="desc">These details appear on all your Quotes & Invoices.</p>
+              <div class="form-group"><label>Business Name</label><input type="text" id="s-biz-name" placeholder="Your Business Name"></div>
+              <div class="form-group"><label>Address</label><textarea id="s-biz-address" rows="4" placeholder="Full address…"></textarea></div>
+              <div class="form-group"><label>Extra Business Info (HTML allowed)</label><textarea id="s-biz-extra" rows="3" placeholder="GST No, VAT No etc…"></textarea></div>
+              <div class="form-group"><label>Website</label><input type="text" id="s-biz-website" placeholder="https://example.com"></div>
+              <button class="btn btn-primary" onclick="saveSettingsTab('business')">Save Business Settings</button>
+            </div>
+
+            <!-- Quotes -->
+            <div class="settings-panel settings-panel-section hidden" data-tab="quotes">
+              <h3>Quote Settings</h3>
+              <p class="desc">Configure how quotations are numbered and presented.</p>
+              <div class="form-grid form-grid-2">
+                <div class="form-group"><label>Prefix</label><input type="text" id="s-q-prefix" placeholder="AKEYQ-"></div>
+                <div class="form-group"><label>Suffix</label><input type="text" id="s-q-suffix" placeholder="(optional)"></div>
+                <div class="form-group"><label>Next Number</label><input type="number" id="s-q-next" min="1"></div>
+                <div class="form-group"><label>Valid For (days)</label><input type="number" id="s-q-valid" min="1"></div>
+              </div>
+              <div class="form-group"><label>Terms & Conditions</label><textarea id="s-q-terms" rows="4"></textarea></div>
+              <div class="form-group"><label>Footer (HTML allowed)</label><textarea id="s-q-footer" rows="3"></textarea></div>
+              <button class="btn btn-primary" onclick="saveSettingsTab('quotes')">Save Quote Settings</button>
+            </div>
+
+            <!-- Invoices -->
+            <div class="settings-panel settings-panel-section hidden" data-tab="invoices">
+              <h3>Invoice Settings</h3>
+              <p class="desc">Configure invoice numbering, due dates, and templates.</p>
+              <div class="form-grid form-grid-2">
+                <div class="form-group"><label>Prefix</label><input type="text" id="s-i-prefix" placeholder="AKEYI-"></div>
+                <div class="form-group"><label>Suffix</label><input type="text" id="s-i-suffix" placeholder="(optional)"></div>
+                <div class="form-group"><label>Next Number</label><input type="number" id="s-i-next" min="1"></div>
+                <div class="form-group"><label>Due Date (days from creation)</label><input type="number" id="s-i-due" min="1"></div>
+              </div>
+              <div class="form-group"><label>Terms & Conditions</label><textarea id="s-i-terms" rows="5"></textarea></div>
+              <div class="form-group"><label>Footer (HTML allowed)</label><textarea id="s-i-footer" rows="3"></textarea></div>
+              <button class="btn btn-primary" onclick="saveSettingsTab('invoices')">Save Invoice Settings</button>
+            </div>
+
+            <!-- Payments -->
+            <div class="settings-panel settings-panel-section hidden" data-tab="payments">
+              <h3>Payment Settings</h3>
+              <p class="desc">Configure currency and payment methods.</p>
+              <div class="form-grid form-grid-2">
+                <div class="form-group"><label>Currency Symbol</label><input type="text" id="s-p-currency" placeholder="₹"></div>
+                <div class="form-group"><label>Number of Decimals</label><input type="number" id="s-p-decimals" min="0" max="4"></div>
+              </div>
+              <div class="form-group"><label>Bank Details (displayed on invoice)</label><textarea id="s-p-bank" rows="4" placeholder="Account number, IFSC, branch…"></textarea></div>
+              <div class="form-group"><label>Generic Payment Instructions (HTML allowed)</label><textarea id="s-p-generic" rows="5" placeholder="Instructions for how to pay…"></textarea></div>
+              <button class="btn btn-primary" onclick="saveSettingsTab('payments')">Save Payment Settings</button>
+            </div>
+
+            <!-- Tax -->
+            <div class="settings-panel settings-panel-section hidden" data-tab="tax">
+              <h3>Tax Settings</h3>
+              <p class="desc">Configure GST/VAT settings for your invoices.</p>
+              <div class="form-group">
+                <label>Prices entered with tax?</label>
+                <label style="display:flex;align-items:center;gap:8px;margin-top:6px;cursor:pointer">
+                  <input type="checkbox" id="s-t-inclusive"> Yes, I will enter prices inclusive of tax
+                </label>
+              </div>
+              <div class="form-grid form-grid-2">
+                <div class="form-group"><label>Tax Percentage (%)</label><input type="number" id="s-t-pct" min="0" step="0.01"></div>
+                <div class="form-group"><label>Tax Name</label><input type="text" id="s-t-name" placeholder="GST (18%)"></div>
+              </div>
+              <button class="btn btn-primary" onclick="saveSettingsTab('tax')">Save Tax Settings</button>
+            </div>
+
+            <!-- Emails -->
+            <div class="settings-panel settings-panel-section hidden" data-tab="emails">
+              <h3>Email Settings</h3>
+              <p class="desc">Configure the email address used for sending notifications.</p>
+              <div class="form-group"><label>Email Address</label><input type="email" id="s-e-addr" placeholder="support@company.com"></div>
+              <div class="form-group"><label>Email Name</label><input type="text" id="s-e-name" placeholder="Your Company Name"></div>
+              <div class="form-group">
+                <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+                  <input type="checkbox" id="s-e-bcc"> BCC on Client Emails (recommended)
+                </label>
+              </div>
+              <div class="alert alert-info">
+                <span>ℹ</span>
+                <span>Email sending requires server-side integration. This app stores your email settings for display/reference on invoices and quotes.</span>
+              </div>
+              <button class="btn btn-primary" onclick="saveSettingsTab('emails')">Save Email Settings</button>
+            </div>
+
+            <!-- Translate -->
+            <div class="settings-panel settings-panel-section hidden" data-tab="translate">
+              <h3>Translate / Labels</h3>
+              <p class="desc">Customize the labels used on your quotes and invoices.</p>
+              <div class="form-grid form-grid-2">
+                <div class="form-group"><label>Quote Label</label><input type="text" id="s-tr-quoteLabel"></div>
+                <div class="form-group"><label>Invoice Label</label><input type="text" id="s-tr-invoiceLabel"></div>
+                <div class="form-group"><label>Hrs/Qty</label><input type="text" id="s-tr-hrsQty"></div>
+                <div class="form-group"><label>Service</label><input type="text" id="s-tr-service"></div>
+                <div class="form-group"><label>Rate/Price</label><input type="text" id="s-tr-ratePrice"></div>
+                <div class="form-group"><label>Adjust</label><input type="text" id="s-tr-adjust"></div>
+                <div class="form-group"><label>Sub Total</label><input type="text" id="s-tr-subTotal"></div>
+                <div class="form-group"><label>Discount</label><input type="text" id="s-tr-discount"></div>
+                <div class="form-group"><label>Total</label><input type="text" id="s-tr-total"></div>
+                <div class="form-group"><label>Total Due</label><input type="text" id="s-tr-totalDue"></div>
+              </div>
+              <button class="btn btn-primary" onclick="saveSettingsTab('translate')">Save Labels</button>
+            </div>
+          </div><!-- end settings panels -->
+        </div>
+      </div><!-- end settings page -->
+
+    </div><!-- page-content -->
+  </div><!-- main-content -->
+</div><!-- app-screen -->
+
+<!-- ════════════════════════════════════════
+     MODALS
+════════════════════════════════════════ -->
+
+<!-- Invoice Modal -->
+<div id="invoice-modal" class="modal-overlay modal-lg">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="inv-modal-title">Add New Invoice</h3>
+      <button class="btn-icon" onclick="closeModal('invoice-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:grid;grid-template-columns:1fr 280px;gap:24px">
+        <!-- Left -->
+        <div>
+          <div class="form-group">
+            <label>Invoice Title *</label>
+            <input type="text" id="inv-form-title" placeholder="e.g. Website Development Services">
+          </div>
+          <div class="form-group">
+            <label>Description (optional)</label>
+            <textarea id="inv-description" rows="2" placeholder="Brief description…"></textarea>
+          </div>
+
+          <!-- Line Items -->
+          <div class="form-section-title" style="margin-top:16px">Line Items</div>
+          <table class="line-items-table">
+            <thead><tr>
+              <th style="width:70px">Qty</th>
+              <th>Item / Description</th>
+              <th style="width:30px" title="Taxable">Tax</th>
+              <th style="width:80px">Adj %</th>
+              <th style="width:110px">Rate (₹)</th>
+              <th style="width:100px" class="text-right">Amount</th>
+              <th style="width:40px"></th>
+            </tr></thead>
+            <tbody id="inv-line-items-body"></tbody>
+          </table>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+            <button class="btn btn-secondary btn-sm" onclick="addLineItem('inv')">+ Add Item</button>
+            <select id="inv-predefined" class="filter-select" style="flex:1" onchange="if(this.value!='')addPredefinedItem('inv')">
+              <option value="">+ Add pre-defined item</option>
+            </select>
+          </div>
+
+          <!-- Totals -->
+          <div style="display:flex;justify-content:flex-end">
+            <table class="totals-table">
+              <tr><td>Sub Total</td><td id="inv-subtotal">₹0.00</td></tr>
+              <tr><td id="inv-tax-label">GST (18%)</td><td id="inv-tax-amt">₹0.00</td></tr>
+              <tr><td>Discount</td><td id="inv-discount-amt">-₹0.00</td></tr>
+              <tr><td>Paid</td><td id="inv-paid-amt">-₹0.00</td></tr>
+              <tr class="total-due"><td>Total Due</td><td id="inv-total-due">₹0.00</td></tr>
+            </table>
+          </div>
+
+          <!-- Payments -->
+          <div class="form-section-title" style="margin-top:20px">Payments</div>
+          <div id="payments-wrap"></div>
+          <button class="btn btn-secondary btn-sm" onclick="addPayment()">+ Add Payment</button>
+
+          <!-- Terms -->
+          <div class="form-section-title" style="margin-top:20px">Terms & Conditions</div>
+          <textarea id="inv-terms" rows="4" style="width:100%;padding:10px;border:1.5px solid var(--border);border-radius:8px;font-family:var(--font);font-size:13px;outline:none"></textarea>
+        </div>
+
+        <!-- Right panel -->
+        <div>
+          <div style="background:var(--bg);border-radius:10px;padding:18px">
+            <div class="form-section-title">Invoice Details</div>
+            <div class="form-group"><label>Client</label>
+              <select id="inv-client"></select>
+              <button class="btn btn-secondary btn-sm" style="margin-top:6px;width:100%" onclick="openNewClientModal()">+ Add New Client</button>
+            </div>
+            <div class="form-group"><label>Status</label>
+              <select id="inv-status">
+                <option value="draft">Draft</option>
+                <option value="sent">Sent</option>
+                <option value="paid">Paid</option>
+                <option value="overdue">Overdue</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Invoice Number (auto)</label>
+              <input type="text" id="inv-number-display" placeholder="Auto-generated" disabled style="background:#f5f5f5">
+            </div>
+            <div class="form-group"><label>Order Number</label><input type="text" id="inv-order-num" placeholder="Optional"></div>
+            <div class="form-group"><label>Created Date</label><input type="date" id="inv-created"></div>
+            <div class="form-group"><label>Due Date</label><input type="date" id="inv-due"></div>
+            <div class="form-section-title" style="margin-top:16px">Payment Settings</div>
+            <div class="form-group"><label>Discount (₹)</label><input type="number" id="inv-discount" value="0" min="0" oninput="updateInvoiceTotals()"></div>
+            <div class="form-group"><label>Tax Rate (%)</label><input type="number" id="inv-tax-rate" value="18" min="0" step="0.01" oninput="updateInvoiceTotals()"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('invoice-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveInvoice()">Save Invoice</button>
+    </div>
+  </div>
+</div>
+
+<!-- Quote Modal -->
+<div id="quote-modal" class="modal-overlay modal-lg">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="qt-modal-title">Add New Quote</h3>
+      <button class="btn-icon" onclick="closeModal('quote-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:grid;grid-template-columns:1fr 280px;gap:24px">
+        <div>
+          <div class="form-group">
+            <label>Quote Title *</label>
+            <input type="text" id="qt-form-title" placeholder="e.g. VPS Hosting Charges">
+          </div>
+
+          <div class="form-section-title" style="margin-top:16px">Line Items</div>
+          <table class="line-items-table">
+            <thead><tr>
+              <th style="width:70px">Qty</th>
+              <th>Item / Description</th>
+              <th style="width:30px" title="Taxable">Tax</th>
+              <th style="width:80px">Adj %</th>
+              <th style="width:110px">Rate (₹)</th>
+              <th style="width:100px" class="text-right">Amount</th>
+              <th style="width:40px"></th>
+            </tr></thead>
+            <tbody id="qt-line-items-body"></tbody>
+          </table>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+            <button class="btn btn-secondary btn-sm" onclick="addLineItem('qt')">+ Add Item</button>
+            <select id="qt-predefined" class="filter-select" style="flex:1" onchange="if(this.value!='')addPredefinedItem('qt')">
+              <option value="">+ Add pre-defined item</option>
+            </select>
+          </div>
+
+          <div style="display:flex;justify-content:flex-end">
+            <table class="totals-table">
+              <tr><td>Sub Total</td><td id="qt-subtotal">₹0.00</td></tr>
+              <tr><td id="qt-tax-label">GST (18%)</td><td id="qt-tax-amt">₹0.00</td></tr>
+              <tr><td>Discount</td><td id="qt-discount-amt">-₹0.00</td></tr>
+              <tr class="total-due"><td>Total Due</td><td id="qt-total-due">₹0.00</td></tr>
+            </table>
+          </div>
+
+          <div class="form-section-title" style="margin-top:20px">Terms & Conditions</div>
+          <textarea id="qt-terms" rows="4" style="width:100%;padding:10px;border:1.5px solid var(--border);border-radius:8px;font-family:var(--font);font-size:13px;outline:none"></textarea>
+        </div>
+
+        <div>
+          <div style="background:var(--bg);border-radius:10px;padding:18px">
+            <div class="form-section-title">Quote Details</div>
+            <div class="form-group"><label>Client</label>
+              <select id="qt-client"></select>
+              <button class="btn btn-secondary btn-sm" style="margin-top:6px;width:100%" onclick="openNewClientModal()">+ Add New Client</button>
+            </div>
+            <div class="form-group"><label>Status</label>
+              <select id="qt-status">
+                <option value="draft">Draft</option>
+                <option value="sent">Sent</option>
+                <option value="accepted">Accepted</option>
+                <option value="declined">Declined</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Created Date</label><input type="date" id="qt-created"></div>
+            <div class="form-group"><label>Valid Until Date</label><input type="date" id="qt-valid"></div>
+            <div class="form-section-title" style="margin-top:16px">Tax Settings</div>
+            <div class="form-group"><label>Discount (₹)</label><input type="number" id="qt-discount" value="0" min="0" oninput="updateQuoteTotals()"></div>
+            <div class="form-group"><label>Tax Rate (%)</label><input type="number" id="qt-tax-rate" value="18" min="0" step="0.01" oninput="updateQuoteTotals()"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('quote-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveQuote()">Save Quote</button>
+    </div>
+  </div>
+</div>
+
+<!-- Client Modal -->
+<div id="client-modal" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="client-modal-title">Add New Client</h3>
+      <button class="btn-icon" onclick="closeModal('client-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-info">
+        <span>ℹ</span>
+        <span>Add a new client to associate with your invoices and quotes.</span>
+      </div>
+      <div class="form-group">
+        <label>Add new client from</label>
+        <select id="client-user-type">
+          <option value="existing">Existing User / Organization</option>
+          <option value="new">Create New User</option>
+        </select>
+      </div>
+      <div class="form-grid form-grid-2">
+        <div class="form-group" style="grid-column:1/-1"><label>Business / Client Name *</label><input type="text" id="client-biz-name" placeholder="Company or person name"></div>
+        <div class="form-group"><label>Email *</label><input type="email" id="client-email" placeholder="client@email.com"></div>
+        <div class="form-group"><label>Website</label><input type="text" id="client-website" placeholder="https://example.com"></div>
+        <div class="form-group"><label>First Name</label><input type="text" id="client-first" placeholder="First name"></div>
+        <div class="form-group"><label>Last Name</label><input type="text" id="client-last" placeholder="Last name"></div>
+        <div class="form-group" style="grid-column:1/-1"><label>Address</label><textarea id="client-address" rows="3" placeholder="Full address…"></textarea></div>
+        <div class="form-group" style="grid-column:1/-1"><label>GST Number</label><input type="text" id="client-gst" placeholder="GST No."></div>
+        <div class="form-group" style="grid-column:1/-1"><label>Extra Info</label><textarea id="client-extra" rows="2" placeholder="Additional info…"></textarea></div>
+        <div class="form-group hidden"><label>Username</label><input type="text" id="client-username" placeholder="username"></div>
+        <div class="form-group hidden"><label>Password</label><input type="password" id="client-password" placeholder="password"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('client-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveClient()">Save Client</button>
+    </div>
+  </div>
+</div>
+
+<!-- Preview Modal -->
+<div id="preview-modal" class="modal-overlay modal-lg">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Invoice / Quote Preview</h3>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-secondary btn-sm" onclick="printInvoice()">🖨 Print / PDF</button>
+        <button class="btn-icon" onclick="closeModal('preview-modal')">✕</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="preview-inv-id">
+      <div id="preview-content"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div id="toast-container" class="toast-container"></div>
+
+<script src="db.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
